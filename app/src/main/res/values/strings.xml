@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">掌上憨憨</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="homepage_name">首页</string>
+    <string name="discover_name">发现</string>
+    <string name="mine_name">我的</string>
+    <string name="test">测试</string>
+
+</resources>

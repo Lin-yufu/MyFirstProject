@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.ProfileActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        >
+        <include layout="@layout/topbar_with_back"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/mine_icon"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:src="@drawable/logo" />
+
+            <TextView
+                android:layout_marginTop="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="点击头像更换头像" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_host_nick"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:background="@drawable/mine_button"
+            >
+            <TextView
+                android:text="昵称"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/host_nick_text"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"/>
+            <ImageView
+                android:layout_height="match_parent"
+                android:layout_width="30dp"
+                android:src="@drawable/right_arrow"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/linear_host_avatar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:background="@drawable/mine_button"
+            >
+            <TextView
+                android:text="个性签名"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/host_avatar_text"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"/>
+            <ImageView
+                android:layout_height="match_parent"
+                android:layout_width="30dp"
+                android:src="@drawable/right_arrow"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

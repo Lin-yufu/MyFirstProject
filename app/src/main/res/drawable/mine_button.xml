@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="#dbd0e6">
+    <!-- 主体背景颜色值 -->
+    <item android:bottom="1dp"> <!--设置只有底部有边框-->
+        <shape>
+            <solid android:color="#ffffff" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <solid android:color="@android:color/transparent" />
+            <corners android:radius="999dp" />
+        </shape>
+    </item>
+</ripple>
+
+
+
+
+
+

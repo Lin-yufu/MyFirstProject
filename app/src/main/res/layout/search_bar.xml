@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:id="@+id/search_bar"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <ImageView
+        android:src="@drawable/logo"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_gravity="center_vertical"
+        android:layout_width="30dp"
+        android:layout_height="30dp"/>
+    <androidx.cardview.widget.CardView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/search_button"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        app:cardBackgroundColor="#e6e6e6"
+        android:layout_margin="5dp"
+        app:cardCornerRadius="30dp">
+        <ImageView
+            android:src="@drawable/search"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="10dp"
+            android:layout_gravity="center_vertical"
+            android:layout_width="20dp"
+            android:layout_height="20dp"/>
+    </androidx.cardview.widget.CardView>
+    <ImageView
+        android:src="@drawable/message"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_gravity="center_vertical"
+        android:layout_width="30dp"
+        android:layout_height="30dp"/>
+
+
+</LinearLayout>

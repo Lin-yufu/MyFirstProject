@@ -1,0 +1,27 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_alignParentTop="true"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context=".Activity.Fragment.DiscoverFragment"
+    >
+
+    <include layout="@layout/topbar_with_add"/>
+    <!-- TODO: Update blank fragment layout -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/discover_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/ripple_bg_drawable"/>
+    <TextView
+        android:id="@+id/homepage_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="空空如也"
+        android:layout_gravity="center"
+        android:textSize="50dp"
+        android:visibility="gone"/>
+
+</LinearLayout>

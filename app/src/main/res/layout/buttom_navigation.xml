@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="45dp"
+    android:layout_alignParentBottom="true"
+    android:gravity="center"
+    android:id="@+id/button_navigation"
+    >
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:clickable="true"
+        >
+        <ImageView
+            android:id="@+id/hompage_button"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/buttom_navigation_home"
+            android:padding="0dp"
+            android:clickable="true"
+            android:background="@drawable/ripple_bg_drawable"
+
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/homepage_name"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:padding="0dp"
+            android:textSize="8dp"
+            android:textColor="#1296db"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:clickable="true"
+        >
+        <ImageView
+            android:id="@+id/discover_button"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/buttom_navigation_discover"
+            android:clickable="true"
+            android:padding="0dp"
+            android:background="@drawable/ripple_bg_drawable"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/discover_name"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:padding="0dp"
+            android:textSize="8dp"
+            android:textColor="#1296db"/>
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:clickable="true"
+        >
+        <ImageView
+            android:id="@+id/mine_button"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/buttom_navigation_mine"
+            android:padding="0dp"
+            android:background="@drawable/ripple_bg_drawable"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/mine_name"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:padding="0dp"
+            android:textSize="8dp"
+            android:textColor="#1296db"/>
+
+
+    </LinearLayout>
+
+
+
+
+</LinearLayout>

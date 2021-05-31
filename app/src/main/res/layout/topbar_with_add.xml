@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:id="@+id/topbar_with_add"
+    android:layout_alignParentTop="true">
+    <!--纯粹用来占位的-->
+    <ImageView
+        android:layout_height="25dp"
+        android:layout_width="25dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="10dp"
+        />
+    <TextView
+        android:id="@+id/top_bar_name"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:textSize="20dp"
+        android:text="@string/test"
+        android:gravity="center"
+        />
+    <ImageView
+        android:id="@+id/add_button"
+        android:src="@drawable/write"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginRight="10dp"
+        android:layout_gravity="center_vertical" />
+
+
+
+</LinearLayout>
