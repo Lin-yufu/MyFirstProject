@@ -66,6 +66,8 @@ public class MineFragment extends Fragment {
     private FrameLayout mineLayout;
     private Button editProfile;
     private Button myArticle;
+    private Button aboutAuthor;
+    private Button updateCheck;
 
     public MineFragment() {
         // Required empty public constructor
@@ -91,6 +93,8 @@ public class MineFragment extends Fragment {
         hostNick=(TextView) view.findViewById(R.id.mine_nick);
         hostAvatar=(TextView) view.findViewById(R.id.mine_avatar);
         mineIcon=(ImageView)view.findViewById(R.id.mine_icon);
+        aboutAuthor=(Button) view.findViewById(R.id.about_author);
+        updateCheck=(Button)view.findViewById(R.id.check_update);
         logoutButton=(Button)view.findViewById(R.id.logout);
 
         System.out.println(hostId);
@@ -155,6 +159,22 @@ public class MineFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), MyArticleActivity.class);
                 intent.putExtra("hostId",hostId);
                 startActivity(intent);
+            }
+        });
+        //关于开发者
+        aboutAuthor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder=new AlertDialog.Builder(getContext());
+                builder.setTitle("(｡･∀･)ﾉﾞ嗨，欢迎使用我的软件");
+                builder.setMessage("");
+            }
+        });
+        //更新检查
+        updateCheck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(),"已经是最新版本",Toast.LENGTH_SHORT).show();
             }
         });
 

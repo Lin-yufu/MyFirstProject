@@ -1,32 +1,59 @@
 package com.example.myfirstproject.Activity.Fragment;
 
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Environment;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.example.myfirstproject.Activity.Adapter.DiscoverContentAdapter;
+import com.example.myfirstproject.Activity.Adapter.OnImageClickListener;
 import com.example.myfirstproject.Activity.AddArticleActivity;
 import com.example.myfirstproject.Activity.Bean.DiscoveryContentBean;
 import com.example.myfirstproject.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.luck.picture.lib.tools.ToastUtils;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import okhttp3.Call;
@@ -43,21 +70,21 @@ public class DiscoverFragment extends Fragment {
     private TextView homepageEmpty;
     private ImageView addButton;
     private TextView topbarName;
-    final static int NO_RESULT=20;
-    final static int HAS_RESULT=21;
+    final static int NO_RESULT = 20;
+    final static int HAS_RESULT = 21;
     //子线程加载完数据后，发送给主线程更新ui
-    private Handler mhandler=new Handler(){
+    private Handler mhandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
-            if(msg.what==HAS_RESULT){
+            if (msg.what == HAS_RESULT) {
 //                Toast.makeText(getActivity(),"消息传入成功",Toast.LENGTH_SHORT).show();
-                List<DiscoveryContentBean> datas=(List<DiscoveryContentBean>)msg.obj;
+                List<DiscoveryContentBean> datas = (List<DiscoveryContentBean>) msg.obj;
                 adapter.setData(datas);
-                homepageEmpty=(TextView)getActivity().findViewById(R.id.homepage_empty);
+                homepageEmpty = (TextView) getActivity().findViewById(R.id.homepage_empty);
                 homepageEmpty.setVisibility(View.GONE);
-            }else {
-                homepageEmpty=(TextView)getActivity().findViewById(R.id.homepage_empty);
+            } else {
+                homepageEmpty = (TextView) getActivity().findViewById(R.id.homepage_empty);
                 homepageEmpty.setVisibility(View.VISIBLE);
             }
 
@@ -68,6 +95,7 @@ public class DiscoverFragment extends Fragment {
     public DiscoverFragment() {
         // Required empty public constructor
     }
+
     private DiscoverContentAdapter adapter;
 
     @Override
@@ -76,18 +104,79 @@ public class DiscoverFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_discover, container, false);
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.discover_recycler_view);
-        addButton=(ImageView)view.findViewById(R.id.add_button);
-        topbarName=(TextView) view.findViewById(R.id.top_bar_name);
+        //加载顶部栏
+        addButton = (ImageView) view.findViewById(R.id.add_button);
+        topbarName = (TextView) view.findViewById(R.id.top_bar_name);
         topbarName.setText("发现");
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.discover_recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new DiscoverContentAdapter(homepageContentList);
         recyclerView.setAdapter(adapter);
+        //坑点
+        adapter.setmOnImageClickListener(new OnImageClickListener() {
+            @Override
+            public void onImageClicked(View view, int positon, String url) {
+                LayoutInflater inflater = LayoutInflater.from(getContext());
+                View imgEntryView = inflater.inflate(R.layout.picture_dialog, null);
+                // 加载自定义的布局文件,AlertDialog一定要设置style才能全屏
+                AlertDialog dialog = new AlertDialog.Builder(getContext(), R.style.MyDialog).create();
+                ImageView img = (ImageView) imgEntryView.findViewById(R.id.large_image);
+
+                //回调glide的SimpleTarget方法，保证加载完成后出现对话框
+                Glide.with(getContext()).load(url).into(new SimpleTarget<Drawable>() {
+                    @Override
+                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                        img.setImageDrawable(resource);
+                        dialog.setView(imgEntryView, 0, 0, 0, 0);
+                        dialog.show();
+                    }
+                });
+                // 这个是加载网络图片的，可以是自己的图片设置方法
+                // imageDownloader.download(imageBmList.get(0),img);
+                // 自定义dialog
+
+                imgEntryView.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View paramView) {
+                        dialog.cancel();
+                    }
+                });
+                //长按,弹出对话框，判断是否保存
+                imgEntryView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        AlertDialog.Builder builder=new AlertDialog.Builder(getContext());
+                        builder.setTitle("是否保存图片？")
+                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Bitmap bitmap=((BitmapDrawable)img.getDrawable()).getBitmap();
+                                        SimpleDateFormat simpleDateFormatId = new SimpleDateFormat("yyyyMMddHHmmss");
+                                        Date date = new Date(System.currentTimeMillis());
+                                        String pictureId = simpleDateFormatId.format(date)+ "_jpg";
+                                        MediaStore.Images.Media.insertImage(getContext().getContentResolver(), bitmap, pictureId, "description");
+                                        dialog.dismiss();
+                                        Toast.makeText(getContext(),"保存成功",Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        Dialog dialog=builder.create();
+                        dialog.show();
+
+                        return true;
+                    }
+                });
+            }
+        });
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getActivity(),AddArticleActivity.class);
+                Intent intent = new Intent(getActivity(), AddArticleActivity.class);
                 startActivity(intent);
 
             }
@@ -95,6 +184,7 @@ public class DiscoverFragment extends Fragment {
         initData();
         return view;
     }
+
     //用于fragment切换时重新加载数据
     @Override
     public void onHiddenChanged(boolean hidden) {
@@ -105,6 +195,7 @@ public class DiscoverFragment extends Fragment {
             initData();
         }
     }
+
     public void initData() {
         String url = " http://60.205.218.123/myfirstproject/downloadArticle/downloadArticleBasic.php";
         OkHttpClient okHttpClient = new OkHttpClient();
@@ -163,6 +254,8 @@ public class DiscoverFragment extends Fragment {
         super.onStart();
         initData();
     }
+
+
 }
 
 

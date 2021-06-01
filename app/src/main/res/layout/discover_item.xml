@@ -60,6 +60,7 @@
             app:cardElevation="3dp"
             app:cardBackgroundColor="#FFFFFF">
             <ImageView
+                android:scaleType="centerCrop"
                 android:id="@+id/article_image"
                 android:layout_width="320dp"
                 android:layout_height="180dp"

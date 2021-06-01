@@ -7,6 +7,7 @@ import androidx.cardview.widget.CardView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.view.View;
 import android.widget.Button;
@@ -65,7 +66,7 @@ public class AddArticleActivity extends BaseActivity {
     final static int UPLOAD_JSON_FALSE = 31;
 
     //设置handler监听进程是否完成
-    private Handler uploadHandler = new Handler() {
+    private Handler uploadHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);

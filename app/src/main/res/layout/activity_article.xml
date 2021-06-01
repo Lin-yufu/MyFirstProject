@@ -8,11 +8,9 @@
     android:orientation="vertical"
     tools:context=".Activity.ArticleActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
+        android:layout_height="wrap_content">
 
         <include layout="@layout/topbar_with_back" />
 
@@ -21,6 +19,8 @@
             android:id="@+id/article_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="50dp"
+            android:fillViewport="true"
             android:padding="10dp"
             android:scrollbars="none">
 
@@ -32,73 +32,143 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
-                    <ImageView
-                        android:id="@+id/detail_author_icon"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/logo" />
 
-                    <TextView
-                        android:layout_marginLeft="10dp"
-                        android:id="@+id/detail_author_nick"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/test" />
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_marginLeft="10dp"
-                        android:id="@+id/detail_publish_time"
-                        android:layout_width="wrap_content"
+                        <ImageView
+                            android:id="@+id/detail_author_icon"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/logo" />
+
+                        <TextView
+                            android:id="@+id/detail_author_nick"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="@string/test" />
+
+                        <TextView
+                            android:id="@+id/detail_publish_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="@string/test" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/test" />
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/detail_article_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="30dp"
+                            android:layout_marginBottom="30dp"
+                            android:text="@string/test"
+                            android:textSize="30sp" />
+
+                        <TextView
+                            android:id="@+id/detail_article"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/test"
+                            android:textSize="20sp" />
+
+                        <ImageView
+                            android:id="@+id/detail_article_image"
+                            android:layout_width="match_parent"
+                            android:layout_height="300dp"
+                            android:layout_marginTop="30dp"
+                            android:layout_marginBottom="30dp"
+                            android:adjustViewBounds="true"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/logo" />
+                    </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:background="@drawable/underline">
 
                     <TextView
-                        android:id="@+id/detail_article_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/test"
-                        android:layout_marginTop="30dp"
-                        android:layout_marginBottom="30dp"
-                        android:textSize="30sp" />
-                    <TextView
-                        android:id="@+id/detail_article"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/test"
-                        android:textSize="20sp" />
-                </LinearLayout>
-
-                    <androidx.cardview.widget.CardView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="20dp"
-                        app:cardBackgroundColor="#FFFFFF"
-                        app:cardCornerRadius="4dp"
-                        app:cardElevation="3dp">
-
-                        <ImageView
-                            android:id="@+id/detail_article_image"
-                            android:layout_width="350dp"
-                            android:layout_height="200dp"
-                            android:layout_gravity="center_horizontal"
-                            android:src="@drawable/logo" />
-
-                    </androidx.cardview.widget.CardView>
+                        android:layout_margin="5dp"
+                        android:text="回复"
+                        android:textSize="15sp" />
 
 
+                </LinearLayout>
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="40dp"
+                    android:descendantFocusability="blocksDescendants"
+                    >
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/comment_recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ripple_bg_drawable" />
+                    <TextView
+                        android:layout_alignBottom="@id/comment_recycler_view"
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="没有更多内容了..."
+                        android:gravity="center_horizontal"/>
+
+                </RelativeLayout>
             </LinearLayout>
-
-
         </ScrollView>
-    </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/search_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/underline"
+            android:orientation="horizontal">
+
+            <androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/comment_button"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="0dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="60dp"
+                    android:src="@drawable/write_comment" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="我有话要说..." />
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+    </RelativeLayout>
+
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

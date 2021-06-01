@@ -2,12 +2,14 @@ package com.example.myfirstproject.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
@@ -41,11 +43,12 @@ public class MyArticleActivity extends BaseActivity {
     private TextView myArticleEmpty;
     private ImageView backButton;
     private TextView topbarName;
+    private CardView commentButton;
     final static int NO_RESULT=20;
     final static int HAS_RESULT=21;
     final static  int RELOAD=23;
     //子线程加载完数据后，发送给主线程更新ui
-    public Handler mhandler=new Handler(){
+    public Handler mhandler=new Handler(Looper.getMainLooper()){
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
@@ -103,8 +106,10 @@ public class MyArticleActivity extends BaseActivity {
             }
         });
         backButton=(ImageView)findViewById(R.id.back_button);
+        commentButton=(CardView)findViewById(R.id.comment_button);
         topbarName=(TextView)findViewById(R.id.top_bar_name);
         topbarName.setText("我的文章");
+
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

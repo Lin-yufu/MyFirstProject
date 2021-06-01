@@ -6,11 +6,15 @@ import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.os.SystemClock;
 import android.util.DisplayMetrics;
@@ -25,12 +29,24 @@ import android.widget.TextView;
 
 import com.example.myfirstproject.Activity.Adapter.BannerPagerAdapter;
 import com.example.myfirstproject.Activity.Adapter.BannerViewPager;
+import com.example.myfirstproject.Activity.Adapter.MaterialAdapter;
+import com.example.myfirstproject.Activity.Bean.MaterialBean;
 import com.example.myfirstproject.R;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class BlankFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -43,10 +59,12 @@ public class BlankFragment extends Fragment {
     private static final String TAG = "BlankFragment";
     private BannerViewPager mShuffling;
     private BannerPagerAdapter mShufflingAdapter;
+    private List<MaterialBean> materialBeanList = new ArrayList<>();
     private static List<Integer> sList = new ArrayList<>();
     private boolean mIsTouch = false;
     private boolean isUICreate=false;
-
+    final static int NO_RESULT = 20;
+    final static int HAS_RESULT = 21;
     static {
         sList.add(1);
         sList.add(2);
@@ -63,8 +81,17 @@ public class BlankFragment extends Fragment {
 
     private Handler mHandler;
     private LinearLayout mLinearLayout;
-
-
+    private Handler materialhandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == HAS_RESULT) {
+//                Toast.makeText(getActivity(),"消息传入成功",Toast.LENGTH_SHORT).show();
+                List<MaterialBean> datas = (List<MaterialBean>) msg.obj;
+                adapter.setData(datas);
+            }
+        }
+    };
     public BlankFragment() {
         // Required empty public constructor
     }
@@ -88,14 +115,20 @@ public class BlankFragment extends Fragment {
 
 
     }
-
+    private MaterialAdapter adapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_blank, container, false);
         TextView text = (TextView) view.findViewById(R.id.text);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.homepage_recycler_view);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new MaterialAdapter(materialBeanList);
+        recyclerView.setAdapter(adapter);
         initView(view);
+        initMaterial();
         mHandler = new Handler();
         isUICreate=true;
         return view;
@@ -187,6 +220,55 @@ public class BlankFragment extends Fragment {
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser&&isUICreate)mHandler.post(mRunnable);
         if(!isVisibleToUser&&isUICreate)mHandler.removeCallbacks(mRunnable);
+    }
+    //用于初始化资料
+    private void initMaterial(){
+        String url = " http://60.205.218.123/myfirstproject/downloadMaterial.php";
+        OkHttpClient okHttpClient = new OkHttpClient();
+        final Request request = new Request.Builder()
+                .url(url)
+                .get()//默认就是GET请求，可以不写
+                .build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    new Thread() {
+                        @Override
+                        public void run() {
+
+                            try {
+                                String back = response.body().string();
+                                System.out.println(back);
+                                if (back.equals("no_result")) {
+                                    System.out.println("No result");
+                                    Message message = new Message();
+                                    message.what = NO_RESULT;
+                                    materialhandler.sendMessage(message);
+                                } else {
+                                    Gson gson = new Gson();
+                                    Type type = new TypeToken<List<MaterialBean>>() {
+                                    }.getType();
+                                    List<MaterialBean> datas = gson.fromJson(back, type);
+                                    Message message = new Message();
+                                    message.what = HAS_RESULT;
+                                    message.obj = datas;
+                                    materialhandler.sendMessage(message);
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                    }.start();
+                }
+            }
+        });
     }
 
 }

@@ -6,6 +6,7 @@
     android:gravity="center_vertical"
     android:background="@drawable/underline">
     <TextView
+        android:id="@+id/material_title"
         android:text="测试"
         android:textSize="15dp"
         android:gravity="center"
@@ -13,30 +14,11 @@
         android:layout_weight="2"
         android:layout_margin="25dp"
         android:layout_height="100dp"/>
-    <ImageView
-        android:layout_marginRight="30dp"
-        android:layout_width="0dp"
-        android:layout_height="100dp"
-        android:layout_weight="1"/>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:gravity="center_vertical"
-        android:background="@drawable/underline">
-        <TextView
-            android:text="测试"
-            android:textSize="15dp"
-            android:gravity="center"
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_margin="25dp"
-            android:layout_height="100dp"/>
         <ImageView
+            android:id="@+id/material_peitu"
             android:layout_marginRight="30dp"
             android:layout_width="0dp"
             android:layout_height="100dp"
             android:layout_weight="1"/>
 
-    </LinearLayout>
 </LinearLayout>

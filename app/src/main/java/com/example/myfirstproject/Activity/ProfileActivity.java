@@ -160,7 +160,6 @@ public class ProfileActivity extends BaseActivity {
             }
         });
     }
-
     public void nickOnClick() {
         //初始化dialog
 
